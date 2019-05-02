@@ -1,0 +1,9 @@
+mysql> select *  from employee as em  inner join company as com on em.companyId = com.id where em.name like '%n%'  ;
++----+------------+------+----------+-----------+--------+----+-------------+-----------------+
+| id | name       | age  | gender   | companyId | salary | id | companyName | employeesNumber |
++----+------------+------+----------+-----------+--------+----+-------------+-----------------+
+|  0 | 'xiaoming' |   20 | 'male'   |         0 |   6000 |  0 | 'baidu'     |            1000 |
+|  1 | 'xiaohong' |   19 | 'female' |         1 |   7000 |  1 | 'alibaba'   |            2000 |
+|  3 | 'xiaogang' |   16 | 'male'   |         1 |   6000 |  1 | 'alibaba'   |            2000 |
++----+------------+------+----------+-----------+--------+----+-------------+-----------------+
+3 rows in set (0.00 sec)
