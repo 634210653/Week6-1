@@ -1,23 +1,25 @@
 # practice1
-mysql> select *  from employee as em  inner join company as com on em.companyId = com.id where em.name like '%n%'  ;
-+----+------------+------+----------+-----------+--------+----+-------------+-----------------+
-| id | name       | age  | gender   | companyId | salary | id | companyName | employeesNumber |
-+----+------------+------+----------+-----------+--------+----+-------------+-----------------+
-|  0 | 'xiaoming' |   20 | 'male'   |         0 |   6000 |  0 | 'baidu'     |            1000 |
-|  1 | 'xiaohong' |   19 | 'female' |         1 |   7000 |  1 | 'alibaba'   |            2000 |
-|  3 | 'xiaogang' |   16 | 'male'   |         1 |   6000 |  1 | 'alibaba'   |            2000 |
-+----+------------+------+----------+-----------+--------+----+-------------+-----------------+
-3 rows in set (0.00 sec)
+mysql> select *  from employee as em  inner join company as com on em.companyId = com.id where em.name like '%n%' and em.salary >6000 ;
++----+----------+-----+--------+-----------+--------+----+-------------+-----------------+
+| id | name     | age | gender | companyId | salary | id | companyName | employeesNumber |
++----+----------+-----+--------+-----------+--------+----+-------------+-----------------+
+|  1 | xiaohong |  19 | female |         1 |   7000 |  1 | alibaba     |             200 |
++----+----------+-----+--------+-----------+--------+----+-------------+-----------------+
+1 row in set (0.32 sec)
 
 # practice2
-mysql> select  companyName ,name from employee as em  inner join company as com on em.companyId = com.id  order by salary desc limit 1 ;
-+-------------+-----------+
-| companyName | name      |
-+-------------+-----------+
-| 'tengxun'   | 'xiaozhi' |
-+-------------+-----------+
-1 row in set (0.00 sec)
-
+mysql> select companyName, name from(
+    -> select companyName,companyId,max(salary) as maxSalary
+    -> from employee as em inner join company as com on em.companyId = com.id group by em.companyId
+    -> ) as tmp inner  join  employee as em0 on tmp.companyId = em0.companyId and tmp.maxSalary = em0.salary;
++-------------+----------+
+| companyName | name     |
++-------------+----------+
+| baidu       | xiaoming |
+| alibaba     | xiaohong |
+| tengxun     | xiaozhi  |
++-------------+----------+
+3 rows in set (0.04 sec)
 # practice3
 mysql> select companyName,avg(salary) as avgSalary from employee as em  inner join company as com on em.companyId = com.id
     -> group by companyId
