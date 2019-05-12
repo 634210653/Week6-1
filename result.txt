@@ -1,3 +1,4 @@
+# practice1
 mysql> select *  from employee as em  inner join company as com on em.companyId = com.id where em.name like '%n%'  ;
 +----+------------+------+----------+-----------+--------+----+-------------+-----------------+
 | id | name       | age  | gender   | companyId | salary | id | companyName | employeesNumber |
@@ -7,3 +8,39 @@ mysql> select *  from employee as em  inner join company as com on em.companyId 
 |  3 | 'xiaogang' |   16 | 'male'   |         1 |   6000 |  1 | 'alibaba'   |            2000 |
 +----+------------+------+----------+-----------+--------+----+-------------+-----------------+
 3 rows in set (0.00 sec)
+
+# practice2
+mysql> select  companyName ,name from employee as em  inner join company as com on em.companyId = com.id  order by salary desc limit 1 ;
++-------------+-----------+
+| companyName | name      |
++-------------+-----------+
+| 'tengxun'   | 'xiaozhi' |
++-------------+-----------+
+1 row in set (0.00 sec)
+
+# practice3
+mysql> select companyName,avg(salary) as avgSalary from employee as em  inner join company as com on em.companyId = com.id
+    -> group by companyId
+    -> order by avgSalary desc limit 1;
++-------------+-----------+
+| companyName | avgSalary |
++-------------+-----------+
+| 'tengxun'   |      8000 |
++-------------+-----------+
+1 row in set (0.00 sec)
+
+# practice4
+mysql> select em.id, name, age, gender, companyId, salary,companyName,avgsal  from employee as em,
+    -> (
+    -> select   com.id, companyName,avg(salary) as avgsal
+    -> from employee as em  inner join company as com
+    -> on em.companyId = com.id
+    -> group by companyId
+    -> )
+    -> as tmp where em.salary>tmp.avgsal and tmp.id=em.id;
++----+------------+------+----------+-----------+--------+-------------+--------+
+| id | name       | age  | gender   | companyId | salary | companyName | avgsal |
++----+------------+------+----------+-----------+--------+-------------+--------+
+|  0 | 'xiaoming' |   20 | 'male'   |         0 |   6000 | 'baidu'     |   5000 |
+|  1 | 'xiaohong' |   19 | 'female' |         1 |   7000 | 'alibaba'   |   6500 |
++----+------------+------+----------+-----------+--------+-------------+--------+

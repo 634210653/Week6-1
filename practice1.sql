@@ -48,4 +48,4 @@ FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\r\n';
 ALTER TABLE `Employee` ADD  FOREIGN KEY (`companyId`  ) REFERENCES `Company`(`id`);
 
 select  em.id,name,age,gender,companyId,salary, companyName , employeesNumber
-from employee as em  inner join company as com on em.companyId = com.id where em.name like '%n%'  ;
+from employee as em  inner join company as com on em.companyId = com.id where em.name like '%n%' and em.salary > 6000 ;
